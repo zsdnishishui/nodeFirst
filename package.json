@@ -1,0 +1,20 @@
+{
+  "name": "first",
+  "version": "1.0.0",
+  "description": "爬虫",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zsd",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zsdnishishui/nodeFirst.git"
+  },
+  "dependencies": {
+    "date-utils": "^1.2.21",
+    "iconv-lite": "^0.6.3",
+    "request": "^2.88.2"
+  }
+}
