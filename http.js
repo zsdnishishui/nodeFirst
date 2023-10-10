@@ -50,7 +50,7 @@ readFileToArr('test.txt', function (array) {
         var jitang = json.data;
         // 去重
         if (array.indexOf(jitang) === -1) {
-            var data = new Buffer(jitang+'\n')
+            var data = new Buffer.from(jitang+'\n')
             // 追加文件
             fs.appendFile('test.txt', data, (err) => {
 
