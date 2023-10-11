@@ -1,24 +1,10 @@
 'use strict';
 // 爬取毒鸡汤
-var myRequest = require('request')
-var myIconv = require('iconv-lite')
+var axios = require("axios")
 var fs = require('fs');
 var readLine = require("readline");
-require('date-utils');
-const JSON = require("url");
-var myEncoding = "utf-8";
 var seedURL = 'https://www.iamwawa.cn/home/dujitang/ajax';
-//request模块异步fetch url
-function request(url, callback) {
-    var options = {
-        url: url,
-        encoding: null,
-        // proxy: 'http://127.0.0.1:8000',
-        // headers: headers,
-        timeout: 10000 //
-    }
-    myRequest(options, callback)
-}
+
 /**
  * 按行读取文件内容
  *
@@ -44,30 +30,29 @@ function readFileToArr(fileName, callback) {
     });
 }
 console.log("开启爬虫")
+
 readFileToArr('test.txt', function (array) {
     var intervalId = setInterval(function () {
-    request(seedURL, function (err, res, body) {
-        var html = myIconv.decode(body, myEncoding);
-        var json = JSON.parse(html);
-        var jitang = json.data;
-        // 去重
-        if (array.indexOf(jitang) === -1) {
-            var data = new Buffer.from(jitang+'\n')
-            // 追加文件
-            fs.appendFile('test.txt', data, (err) => {
+        axios.get(seedURL).then(resp => {
+            var jitang = resp.data.data;
+            console.log(jitang)
+            // 去重
+            if (jitang && array.indexOf(jitang) === -1) {
+                var data = new Buffer.from(jitang+'\n')
+                // 追加文件
+                fs.appendFile('test.txt', data, (err) => {
 
-                // 追加失败
-                if(err) {
-                    throw err
-                } else {
-                    // 修复重复添加的bug
-                    array.push(jitang)
-                }
+                    // 追加失败
+                    if(err) {
+                        throw err
+                    } else {
+                        // 修复重复添加的bug
+                        array.push(jitang)
+                    }
 
-            })
-        }
-
-    })
+                })
+            }
+        })
 }, 3000);
 
 })
