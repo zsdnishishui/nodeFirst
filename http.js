@@ -1,9 +1,9 @@
 'use strict';
 // 爬取毒鸡汤
-var axios = require("axios")
-var fs = require('fs');
-var readLine = require("readline");
-var seedURL = 'https://www.iamwawa.cn/home/dujitang/ajax';
+const axios = require("axios");
+const fs = require('fs');
+const readLine = require("readline");
+const seedURL = 'https://www.iamwawa.cn/home/dujitang/ajax';
 
 /**
  * 按行读取文件内容
@@ -15,8 +15,8 @@ var seedURL = 'https://www.iamwawa.cn/home/dujitang/ajax';
  */
 function readFileToArr(fileName, callback) {
 
-    var arr = [];
-    var readObj = readLine.createInterface({
+    const arr = [];
+    const readObj = readLine.createInterface({
         input: fs.createReadStream(fileName)
     });
 
@@ -32,13 +32,13 @@ function readFileToArr(fileName, callback) {
 console.log("开启爬虫")
 
 readFileToArr('test.txt', function (array) {
-    var intervalId = setInterval(function () {
+    const intervalId = setInterval(function () {
         axios.get(seedURL).then(resp => {
-            var jitang = resp.data.data;
+            const jitang = resp.data.data;
             console.log(jitang)
             // 去重
             if (jitang && array.indexOf(jitang) === -1) {
-                var data = new Buffer.from(jitang+'\n')
+                const data = new Buffer.from(jitang+'\n')
                 // 追加文件
                 fs.appendFile('test.txt', data, (err) => {
 
