@@ -1,9 +1,11 @@
+'use strict';
 // 爬取毒鸡汤
 var myRequest = require('request')
 var myIconv = require('iconv-lite')
 var fs = require('fs');
 var readLine = require("readline");
 require('date-utils');
+const JSON = require("url");
 var myEncoding = "utf-8";
 var seedURL = 'https://www.iamwawa.cn/home/dujitang/ajax';
 //request模块异步fetch url
@@ -55,7 +57,12 @@ readFileToArr('test.txt', function (array) {
             fs.appendFile('test.txt', data, (err) => {
 
                 // 追加失败
-                if(err) throw err
+                if(err) {
+                    throw err
+                } else {
+                    // 修复重复添加的bug
+                    array.push(jitang)
+                }
 
             })
         }
@@ -66,5 +73,5 @@ readFileToArr('test.txt', function (array) {
 })
 
 
-
+module.exports = readFileToArr;
 
