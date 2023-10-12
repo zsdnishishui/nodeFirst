@@ -83,7 +83,12 @@ const repeated = async () => {
         })
         getRes(shiArray,shiFileName,'https://www.iamwawa.cn/home/shici/ajax',function (resp){
             const data = resp.data.data;
-            return data.content+"|"+data.author+"|"+data.title
+            if (data.content){
+                return data.content+"|"+data.author+"|"+data.title
+            }else{
+                return null
+            }
+
         })
         // 由于这个网站有3秒钟的限制
         await sleep(3000)
