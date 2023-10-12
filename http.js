@@ -7,6 +7,8 @@ let jiTangArray = []
 let liZhiTangArray = []
 const jiTangFileName = 'test.txt'
 const liZhiFileName = 'lizhi.txt'
+let shiArray = []
+const shiFileName = 'shi.txt'
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 /**
  * 按行读取文件内容
@@ -32,9 +34,9 @@ function readFileToArr(fileName, callback) {
         callback(arr)
     });
 }
-function getRes(array, fileName,seedURL) {
+function getRes(array, fileName,seedURL,func) {
     axios.get(seedURL).then(resp => {
-        const jitang = resp.data.data;
+        const jitang = func(resp);
         console.log(jitang)
         // 去重
         if (jitang && array.indexOf(jitang) === -1) {
@@ -65,14 +67,27 @@ function startLiZhi(){
         liZhiTangArray = array;
     })
 }
-
+function startShi(){
+    readFileToArr(shiFileName, function (array){
+        shiArray = array;
+    })
+}
 
 const repeated = async () => {
     while (true){
-        getRes(jiTangArray,jiTangFileName,'https://www.iamwawa.cn/home/dujitang/ajax')
+        getRes(jiTangArray,jiTangFileName,'https://www.iamwawa.cn/home/dujitang/ajax', function (resp){
+            return resp.data.data
+        })
         // 由于这个网站有3秒钟的限制
         await sleep(3000)
-        getRes(jiTangArray,liZhiFileName,'https://www.iamwawa.cn/home/lizhi/ajax')
+        getRes(jiTangArray,liZhiFileName,'https://www.iamwawa.cn/home/lizhi/ajax',function (resp){
+            return resp.data.data
+        })
+        await sleep(3000)
+        getRes(shiArray,shiFileName,'https://www.iamwawa.cn/home/shici/ajax',function (resp){
+            const data = resp.data.data;
+            return data.content+"|"+data.author+"|"+data.title
+        })
         await sleep(3000)
     }
 }
@@ -80,6 +95,7 @@ const repeated = async () => {
 function start(){
     startJiTang()
     startLiZhi()
+    startShi()
     repeated()
 
 
