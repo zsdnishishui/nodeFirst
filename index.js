@@ -1,6 +1,5 @@
 'use strict';
 
-const readFileToArr = require('./http.js');
 const start = require('./http.js');
 const express = require('express')
 const app = express()
