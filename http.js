@@ -78,16 +78,14 @@ const repeated = async () => {
         getRes(jiTangArray,jiTangFileName,'https://www.iamwawa.cn/home/dujitang/ajax', function (resp){
             return resp.data.data
         })
-        // 由于这个网站有3秒钟的限制
-        await sleep(3000)
         getRes(jiTangArray,liZhiFileName,'https://www.iamwawa.cn/home/lizhi/ajax',function (resp){
             return resp.data.data
         })
-        await sleep(3000)
         getRes(shiArray,shiFileName,'https://www.iamwawa.cn/home/shici/ajax',function (resp){
             const data = resp.data.data;
             return data.content+"|"+data.author+"|"+data.title
         })
+        // 由于这个网站有3秒钟的限制
         await sleep(3000)
     }
 }
