@@ -4,7 +4,7 @@ const axios = require("axios");
 const fs = require('fs');
 const readLine = require("readline");
 const seedURL = 'https://www.iamwawa.cn/home/dujitang/ajax';
-
+const fileName = 'test.txt'
 /**
  * 按行读取文件内容
  *
@@ -29,34 +29,32 @@ function readFileToArr(fileName, callback) {
         callback(arr);
     });
 }
-console.log("开启爬虫")
 
-readFileToArr('test.txt', function (array) {
-    const intervalId = setInterval(function () {
-        axios.get(seedURL).then(resp => {
-            const jitang = resp.data.data;
-            console.log(jitang)
-            // 去重
-            if (jitang && array.indexOf(jitang) === -1) {
-                const data = new Buffer.from(jitang+'\n')
-                // 追加文件
-                fs.appendFile('test.txt', data, (err) => {
+function start(){
+    readFileToArr(fileName, function (array){
+        setInterval(function () {
+            axios.get(seedURL).then(resp => {
+                const jitang = resp.data.data;
+                console.log(jitang)
+                // 去重
+                if (jitang && array.indexOf(jitang) === -1) {
+                    const data = new Buffer.from(jitang+'\n')
+                    // 追加文件
+                    fs.appendFile(fileName, data, (err) => {
 
-                    // 追加失败
-                    if(err) {
-                        throw err
-                    } else {
-                        // 修复重复添加的bug
-                        array.push(jitang)
-                    }
+                        // 追加失败
+                        if(err) {
+                            throw err
+                        } else {
+                            // 修复重复添加的bug
+                            array.push(jitang)
+                        }
 
-                })
-            }
-        })
-}, 3000);
-
-})
-
-
-module.exports = readFileToArr;
+                    })
+                }
+            })
+        }, 3000)
+    })
+}
+module.exports = start;
 
