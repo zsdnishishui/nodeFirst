@@ -1,4 +1,3 @@
-'use strict';
 
 const start = require('./http.js');
 const express = require('express')

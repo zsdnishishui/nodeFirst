@@ -1,14 +1,17 @@
-'use strict';
-// 爬取毒鸡汤
+// axios请求
 const axios = require("axios");
+// 文件模块
 const fs = require('fs');
+// 读取文件的每一行
 const readLine = require("readline");
+// 鸡汤数组，用let 修饰因为这个数组会变化
 let jiTangArray = []
 let liZhiTangArray = []
+let shiArray = []
 const jiTangFileName = 'test.txt'
 const liZhiFileName = 'lizhi.txt'
-let shiArray = []
 const shiFileName = 'shi.txt'
+// 类似java的sleep方法
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 /**
  * 按行读取文件内容
@@ -34,6 +37,8 @@ function readFileToArr(fileName, callback) {
         callback(arr)
     });
 }
+
+// 获取爬取结果
 function getRes(array, fileName,seedURL,func) {
     axios.get(seedURL).then(resp => {
         const jitang = func(resp);
@@ -73,35 +78,35 @@ function startShi(){
     })
 }
 
-const repeated = async () => {
-    while (true){
-        getRes(jiTangArray,jiTangFileName,'https://www.iamwawa.cn/home/dujitang/ajax', function (resp){
-            return resp.data.data
-        })
-        getRes(jiTangArray,liZhiFileName,'https://www.iamwawa.cn/home/lizhi/ajax',function (resp){
-            return resp.data.data
-        })
-        getRes(shiArray,shiFileName,'https://www.iamwawa.cn/home/shici/ajax',function (resp){
-            const data = resp.data.data;
-            if (data.content){
-                return data.content+"|"+data.author+"|"+data.title
-            }else{
-                return null
-            }
+/**
+ * 由于网站有限制，所以每三秒爬取一次
+ */
+function repeated(){
+    setInterval(function () {
+            getRes(jiTangArray,jiTangFileName,'https://www.iamwawa.cn/home/dujitang/ajax', function (resp){
+                return resp.data.data
+            })
+            getRes(jiTangArray,liZhiFileName,'https://www.iamwawa.cn/home/lizhi/ajax',function (resp){
+                return resp.data.data
+            })
+            getRes(shiArray,shiFileName,'https://www.iamwawa.cn/home/shici/ajax',function (resp){
+                const data = resp.data.data;
+                if (data.content){
+                    return data.content+"|"+data.author+"|"+data.title
+                }else{
+                    return null
+                }
 
-        })
-        // 由于这个网站有3秒钟的限制
-        await sleep(3000)
-    }
+            })
+    }, 3000)
 }
-
 function start(){
+    // 初始化数据
     startJiTang()
     startLiZhi()
     startShi()
+    // 开始爬取
     repeated()
-
-
 }
 module.exports = start;
 
