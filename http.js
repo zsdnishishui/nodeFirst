@@ -91,7 +91,7 @@ function repeated(){
             })
             getRes(shiArray,shiFileName,'https://www.iamwawa.cn/home/shici/ajax',function (resp){
                 const data = resp.data.data;
-                if (data.content){
+                if (data && data.content){
                     return data.content+"|"+data.author+"|"+data.title
                 }else{
                     return null
