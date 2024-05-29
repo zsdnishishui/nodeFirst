@@ -7,8 +7,8 @@ const path = require('node:path')
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 400,
+        height: 300,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }
@@ -18,7 +18,7 @@ const createWindow = () => {
     mainWindow.loadFile('index.html')
 
     // 打开开发工具
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
 }
 
 // 这段程序将会在 Electron 结束初始化
