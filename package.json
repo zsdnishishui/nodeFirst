@@ -1,23 +1,35 @@
 {
-  "name": "first",
+  "name": "login",
   "version": "1.0.0",
-  "description": "爬虫",
-  "main": "demo.js",
+  "description": "自动登陆",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "author": "zsd",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zsdnishishui/nodeFirst.git"
+    "url": "git+https://github.com/zsdnishishui/nodeFirst.git"
   },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^30.0.8"
+  },
+  "bugs": {
+    "url": "https://github.com/zsdnishishui/nodeFirst/issues"
+  },
+  "homepage": "https://github.com/zsdnishishui/nodeFirst#readme",
   "dependencies": {
-    "axios": "0.27.2",
-    "crypto-js": "^4.2.0",
-    "date-utils": "^1.2.21",
-    "express": "^4.18.2",
-    "iconv-lite": "^0.6.3"
-  },
-  "bin": "./demo.js"
+    "electron-squirrel-startup": "^1.0.1"
+  }
 }

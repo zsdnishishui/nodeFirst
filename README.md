@@ -1,0 +1,1 @@
+npm install 要用用官方地址 https://registry.npmjs.org/ ，由于国内比较慢，所以要走代理
