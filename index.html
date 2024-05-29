@@ -5,15 +5,23 @@
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
+    <title>自动登录</title>
 </head>
 <body>
-<h1>Hello World!</h1>
-We are using Node.js <span id="node-version"></span>,
-Chromium <span id="chrome-version"></span>,
-and Electron <span id="electron-version"></span>.
+<form>
+    <p>用户名<br />
+        <input type="text" class="textinput" placeholder="请输入用户名" />
+    </p>
+    <p>密码<br />
+        <input type="password" class="textinput" placeholder="请输入密码" />
+    </p>
+    <p>
+        <input type="submit" value="登录" id="submit"/>
+    </p>
+</form>
 
-<！-- 您也可以此进程中运行其他文件 -->
+
+
 <script src="./renderer.js"></script>
 </body>
 </html>
